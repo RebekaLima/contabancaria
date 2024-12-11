@@ -2,19 +2,27 @@ package conta;
 
 import java.util.Scanner;
 
+import conta.model.Conta;
 import conta.util.Cores;
 
 public class Menu {
 
 	public static void main(String[] args) {
 		
-		Scanner leia = new Scanner(System.in);
+		//Instanciamento - Classe -> Objeto Utilizavél
+		Conta c1 = new Conta(123456, 0001, 1, "Maria das Neves", 500f);
+		c1.setSaldo(5000f);
 		
+		System.out.println("Titular: " + c1.getTitular());
+		System.out.println("Saldo: " + c1.getSaldo());
+		
+		Scanner leia = new Scanner(System.in);
 		int opcao;
 		
 		while (true) {
 			
-			System.out.println(Cores.TEXT_YELLOW + Cores.ANSI_BLACK_BACKGROUND + "***************************************************");
+			System.out.println(Cores.TEXT_YELLOW + Cores.ANSI_BLACK_BACKGROUND +
+					"***************************************************");
 			System.out.println("                                                   ");
 			System.out.println("              BANCO DO BRAZIL COM Z                ");
 			System.out.println("                                                   ");
