@@ -3,33 +3,22 @@ package conta;
 import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+
+import conta.controller.ContaController;
 import conta.model.ContaCorrente;
 import conta.model.ContaPoupanca;
 import conta.util.Cores;
 
 public class Menu {
-	
-	public static Scanner leia = new Scanner(System.in);
 
 	public static void main(String[] args) {
-		
-		int opcao;
 
-		// Teste da Classe Conta Corrente
-		ContaCorrente cc1 = new ContaCorrente(1, 123, 1, "José da Silva", 0.0f, 1000.0f);
-		cc1.visualizar();
-		cc1.sacar(12000.0f);
-		cc1.visualizar();
-		cc1.depositar(5000.0f, 0);
-		cc1.visualizar();
+		Scanner leia = new Scanner(System.in);
+		ContaController contas = new ContaController();
 
-		// Teste da Classe Conta Poupança
-		ContaPoupanca cp1 = new ContaPoupanca(2, 123, 2, "Maria dos Santos", 100000.0f, 15);
-		cp1.visualizar();
-		cp1.sacar(1000.0f);
-		cp1.visualizar();
-		cp1.depositar(5000.0f, 0);
-		cp1.visualizar();
+		int opcao, numero, agencia, tipo, aniversario;
+		String titular;
+		float saldo, limite;
 
 		while (true) {
 
@@ -53,13 +42,13 @@ public class Menu {
 			System.out.println("***************************************************");
 			System.out.println("Entre com a opção desejada:                        ");
 			System.out.println("                                                   " + Cores.TEXT_RESET);
-			
+
 			try {
 				opcao = leia.nextInt();
-			} catch(InputMismatchException e){
+			} catch (InputMismatchException e) {
 				System.out.println("\nDigite valores inteiros!");
 				leia.nextLine();
-				opcao=0;
+				opcao = 0;
 			}
 
 			if (opcao == 9) {
@@ -71,13 +60,40 @@ public class Menu {
 
 			switch (opcao) {
 			case 1:
-				System.out.println(Cores.TEXT_WHITE_BOLD + "Criar Conta \n\n");
-				
+		        System.out.println(Cores.TEXT_WHITE + "Criar Conta\n\n");
+
+		        System.out.println("Digite o Numero da Agência: ");
+		        agencia = leia.nextInt();
+		        System.out.println("Digite o Nome do Titular: ");
+		        leia.skip("\\R");
+		        titular = leia.nextLine();
+
+		        do {
+		            System.out.println("Digite o Tipo da Conta (1-CC ou 2-CP): ");
+		            tipo = leia.nextInt();
+		        } while (tipo < 1 && tipo > 2);
+
+		        System.out.println("Digite o Saldo da Conta (R$): ");
+		        saldo = leia.nextFloat();
+
+		        switch (tipo) {
+		            case 1 -> {
+		                System.out.println("Digite o Limite de Crédito (R$): ");
+		                limite = leia.nextFloat();
+		                contas.cadastrar(new ContaCorrente(contas.gerarNumero(), agencia, tipo, titular, saldo, limite));
+		            }
+		            case 2 -> {
+		                System.out.println("Digite o Dia do Aniversario da Conta: ");
+		                aniversario = leia.nextInt();
+		                contas.cadastrar(new ContaPoupanca(contas.gerarNumero(), agencia, tipo, titular, saldo, aniversario));
+		            }
+		        }
+
 				keyPress();
 				break;
 			case 2:
 				System.out.println(Cores.TEXT_WHITE_BOLD + "Listar todas as contas \n\n");
-
+				contas.listarTodas();
 				keyPress();
 				break;
 			case 3:
@@ -119,24 +135,24 @@ public class Menu {
 
 	}
 
-	public static void sobre() {
-		System.out.println("\n**********************************************************");
-		System.out.println("Projeto Desenvolvido por: Rebeka Lima");
-		System.out.println("Generation Brasil - rebekas@genstudents.org");
-		System.out.println("https://github.com/RebekaLima");
-		System.out.println("**********************************************************");
+		public static void sobre() {
+			System.out.println("\n**********************************************************");
+			System.out.println("Projeto Desenvolvido por: Rebeka Lima");
+			System.out.println("Generation Brasil - rebekas@genstudents.org");
+			System.out.println("https://github.com/RebekaLima");
+			System.out.println("**********************************************************");
 	}
-	
-	public static void keyPress() {
 
-		try {
+		public static void keyPress() {
 
-			System.out.println(Cores.TEXT_RESET + "\n\nPressione 'Enter' para Continuar...");
-			System.in.read();
+			try {
 
-		} catch (IOException e) {
+				System.out.println(Cores.TEXT_RESET + "\n\nPressione 'Enter' para Continuar...");
+				System.in.read();
 
-			System.out.println("Você pressionou uma tecla diferente de 'Enter'!");
+			} catch (IOException e) {
+
+				System.out.println("Você pressionou uma tecla diferente de 'Enter'!");
 
 		}
 
