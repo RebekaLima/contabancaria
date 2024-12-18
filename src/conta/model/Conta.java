@@ -67,11 +67,10 @@ public abstract class Conta {
 		return true;
 	}
 		
-	public void depositar(float valor, float f) {
-		
-		this.setSaldo(this.getSaldo() + valor);
-	
+	public void depositar(float valor) {
+	    this.setSaldo(this.getSaldo() + valor);
 	}
+	
 		
 		public void visualizar() {
 			
@@ -96,6 +95,7 @@ public abstract class Conta {
 			System.out.println("Saldo: " + this.saldo);
 			
 	}
+
 }
 
 
